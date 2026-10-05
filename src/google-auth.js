@@ -18,7 +18,6 @@ export function getGoogleCredentials(environment = process.env) {
 export function createAuthorizationUrl(oauth2Client, state) {
   return oauth2Client.generateAuthUrl({
     access_type: 'offline',
-    include_granted_scopes: true,
     prompt: 'consent',
     scope: [DRIVE_FILE_SCOPE],
     state,
