@@ -5,10 +5,13 @@ import { createAuthorizationUrl, getGoogleCredentials } from '../src/google-auth
 
 test('Google OAuth認証URLはDrive file scopeとoffline accessを要求する', () => {
   const client = new google.auth.OAuth2('client-id', 'client-secret', 'http://127.0.0.1:1234/oauth2callback');
-  const url = new URL(createAuthorizationUrl(client));
+  const url = new URL(createAuthorizationUrl(client, 'test-state'));
   assert.equal(url.searchParams.get('access_type'), 'offline');
+  assert.equal(url.searchParams.get('include_granted_scopes'), 'true');
   assert.equal(url.searchParams.get('prompt'), 'consent');
   assert.equal(url.searchParams.get('scope'), 'https://www.googleapis.com/auth/drive.file');
+  assert.equal(url.searchParams.get('state'), 'test-state');
+  assert.equal(url.searchParams.get('trigger_onepick'), 'true');
 });
 
 test('Google OAuthのクライアント情報がない場合は明確に失敗する', () => {

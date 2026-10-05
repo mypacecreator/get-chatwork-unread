@@ -43,12 +43,19 @@ Google Drive連携を実装する前に、Codex Cloudへ登録するrefresh toke
 npm run google:auth
 ```
 
-1. ターミナルに表示された認可URLを、コマンドを実行した同じローカルPCのブラウザで開きます。
-2. テストユーザーとして登録したGoogle Workspaceアカウントで認可します。
-3. ブラウザに完了画面が表示されたら、ターミナルへ戻ります。
-4. 表示された`GOOGLE_REFRESH_TOKEN=...`の値を、Codex CloudのSecret `GOOGLE_REFRESH_TOKEN`として登録します。
+1. `.env`に既存の対象ファイルのIDを設定します。
 
-このフローはGoogleのデスクトップアプリ向けループバックIPリダイレクトを使用し、権限は`https://www.googleapis.com/auth/drive.file`に限定しています。refresh tokenはファイルへ保存せず、認証完了時に端末へ一度だけ表示します。
+   ```ini
+   GOOGLE_DRIVE_FILE_ID=...
+   ```
+
+2. ターミナルに表示された認可URLを、コマンドを実行した同じローカルPCのブラウザで開きます。
+3. テストユーザーとして登録したGoogle Workspaceアカウントで認可します。
+4. Google Pickerが表示されたら、既存の`chatwork-unread.md`を選択します。
+5. ブラウザに完了画面が表示されたら、ターミナルへ戻ります。表示された`GOOGLE_REFRESH_TOKEN=...`の値を、Codex CloudのSecret `GOOGLE_REFRESH_TOKEN`として登録します。
+6. スクリプトは選択後に`GOOGLE_DRIVE_FILE_ID`へ読み取り専用でアクセスし、File ID・ファイル名・MIME type・サイズ・更新日時を表示します。PickerがFile IDをコールバックで返す場合は、設定値との一致も表示します。
+
+このフローはGoogleのデスクトップアプリ向けループバックIPリダイレクトとOne Picker（`trigger_onepick=true`）を使用し、権限は`https://www.googleapis.com/auth/drive.file`に限定しています。refresh tokenはファイルへ保存せず、認証完了時に端末へ一度だけ表示します。
 
 ## テスト
 
