@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { google } from 'googleapis';
+import { createAuthorizationUrl, getGoogleCredentials } from '../src/google-auth.js';
+
+test('Google OAuth認証URLはDrive file scopeとoffline accessを要求する', () => {
+  const client = new google.auth.OAuth2('client-id', 'client-secret', 'http://127.0.0.1:1234/oauth2callback');
+  const url = new URL(createAuthorizationUrl(client));
+  assert.equal(url.searchParams.get('access_type'), 'offline');
+  assert.equal(url.searchParams.get('prompt'), 'consent');
+  assert.equal(url.searchParams.get('scope'), 'https://www.googleapis.com/auth/drive.file');
+});
+
+test('Google OAuthのクライアント情報がない場合は明確に失敗する', () => {
+  assert.throws(() => getGoogleCredentials({}), /GOOGLE_CLIENT_ID/);
+});

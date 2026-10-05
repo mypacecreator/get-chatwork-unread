@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "chatwork": "node src/chatwork.js",
+    "google:auth": "node src/google-auth.js",
     "test": "node --test"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "dotenv": "^16.6.1"
+    "dotenv": "^16.6.1",
+    "googleapis": "^183.0.0"
   }
 }
