@@ -35,6 +35,26 @@ npm run chatwork
 
 このコマンドは読み取り専用のChatwork API呼び出しのみを行い、メッセージの既読・未読状態を変更しません。
 
+## Chatwork未読コンテキストをGoogle Driveへ同期
+
+`GOOGLE_DRIVE_FILE_ID`で指定した既存の`chatwork-unread.md`を、生成したMarkdownで上書きします。
+
+```bash
+npm run chatwork:sync
+```
+
+必要な`.env`またはCodex Cloud Secretは次のとおりです。
+
+```ini
+CHATWORK_API_TOKEN=...
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+GOOGLE_REFRESH_TOKEN=...
+GOOGLE_DRIVE_FILE_ID=...
+```
+
+同期はChatwork取得、`output/chatwork-unread.md`の生成、Google Driveの既存ファイル更新の順で実行されます。`files.create`は使用せず、更新前後にFile IDとMIME type（`text/markdown`）を検証するため、新規ファイルの作成や別ファイルへの更新は行いません。
+
 ## Google OAuth 2.0の初回認証
 
 Google Drive連携を実装する前に、Codex Cloudへ登録するrefresh tokenを取得できます。
