@@ -1,0 +1,43 @@
+name: Sync Chatwork unread context
+
+on:
+  schedule:
+    # 08:40 JST (UTC+9), Monday through Friday in Japan.
+    # This is 23:40 UTC on the preceding Sunday through Thursday.
+    - cron: '40 23 * * 0-4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chatwork-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Generate and sync unread context
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Chatwork context and update Google Drive
+        run: npm run chatwork:sync
+        env:
+          CHATWORK_API_TOKEN: ${{ secrets.CHATWORK_API_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_DRIVE_FILE_ID: ${{ secrets.GOOGLE_DRIVE_FILE_ID }}
