@@ -1,0 +1,16 @@
+{
+  "name": "get-chatwork-unread",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "chatwork": "node src/chatwork.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1"
+  }
+}
