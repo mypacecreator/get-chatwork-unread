@@ -2,9 +2,9 @@ name: Sync Chatwork unread context
 
 on:
   schedule:
-    # 08:40 JST (UTC+9), Monday through Friday in Japan.
-    # This is 23:40 UTC on the preceding Sunday through Thursday.
-    - cron: '40 23 * * 0-4'
+    # 07:15 JST (UTC+9), Monday through Friday in Japan.
+    # This is 22:15 UTC on the preceding Sunday through Thursday.
+    - cron: '15 22 * * 0-4'
   workflow_dispatch:
 
 permissions:
